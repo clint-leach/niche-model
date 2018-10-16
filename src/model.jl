@@ -31,7 +31,7 @@ function computeLL(θ, m)
 
     @inbounds for pred in 1:m.nonbasal
         for prey in 1:m.S
-            ϕ = exp(-((θ.n[prey] - θ.c[pred]) / (θ.r[pred] / 2)) ^ 2)
+            ϕ = 0.99 * exp(-((θ.n[prey] - θ.c[pred]) / (θ.r[pred] / 2)) ^ 2)
             loglik += logpdf(Bernoulli(ϕ), m.foodweb[prey, m.basal + pred])
         end
     end
