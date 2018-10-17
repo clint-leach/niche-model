@@ -10,6 +10,9 @@ end
 
 function model(foodweb::Matrix{Int64})
 
+    # Prune prey with only specialist prey
+    foodweb = prune(foodweb)
+
     # Sort the species by number of prey
     nprey = sum(foodweb, dims = 1)
     cols = sort([1:length(nprey);], by = i -> nprey[i])
