@@ -46,11 +46,12 @@ function (m::model)(θ)
 
     logpost = computeLL(θ, m)
 
-    logpost == -Inf && return -Inf
+    logpost += logpdf.(Beta(1, 5), θ.r) |> sum
 
-    logpost += logpdf.(Beta(1, 1), θ.n) |> sum
-    logpost += logpdf.(Beta(1, 1), θ.r) |> sum
-    logpost += logpdf.(Beta(1, 1), θ.c) |> sum
+    isnan(logpost) && return -Inf
+
+    # @show logpost.value
+    # @show ForwardDiff.value.(θ.c)
 
     return logpost
 end
